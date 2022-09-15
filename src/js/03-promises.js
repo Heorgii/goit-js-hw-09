@@ -1,3 +1,6 @@
+const formEl = document.querySelector('.form');
+const btnCreatePromis = document.querySelector('button');
+
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   if (shouldResolve) {
@@ -6,3 +9,12 @@ function createPromise(position, delay) {
     // Reject
   }
 }
+
+
+createPromise(2, 1500)
+  .then(({ position, delay }) => {
+    Notify.failure(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  })
+  .catch(({ position, delay }) => {
+    Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  });
