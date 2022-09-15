@@ -1,5 +1,5 @@
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const startBtn = document.querySelector('[data-start]');
@@ -25,6 +25,7 @@ function convertMs(ms) {
 
     return { days, hours, minutes, seconds };
 }
+const addLeadingZero = value => String(value).padStart(2, 0);
 
 const options = {
     enableTime: true,
@@ -36,6 +37,7 @@ const options = {
             Notify.failure('Please choose a date in the future');
             return;
         }
+
         startBtn.removeAttribute('disabled');
 
         const timer = () => {
@@ -43,28 +45,37 @@ const options = {
             localStorage.setItem('selectedData', selectedDates[0]);
             const selectData = new Date(localStorage.getItem('selectedData'));
 
-            if (!selectData) {
-                return;
-            }
+            if (!selectData) return;
 
             const diff = selectData - now;
             const { days, hours, minutes, seconds } = convertMs(diff);
 
-            daysRef.textContent = addLeadingZero(days);
+            daysRef.textContent = days;
             hourRefs.textContent = addLeadingZero(hours);
             minRefs.textContent = addLeadingZero(minutes);
             secRefs.textContent = addLeadingZero(seconds);
 
             if (
-                daysRef.textContent &&
-                hourRefs.textContent &&
-                minRefs.textContent &&
-                secRefs.textContent
+                daysRef.textContent === '0' &&
+                hourRefs.textContent === '0' &&
+                minRefs.textContent === '0' &&
+                secRefs.textContent === '0'
             ) {
                 clearInterval(timerId);
             }
         };
 
- 
+        const onClick = () => {
+            if (timerId) {
+                clearInterval(timerId);
+            }
+            timer();
+            timerId = setInterval(timer, 1000);
+        }
+
+        startBtn.addEventListener('click', onClick);
+
     },
 };
+
+flatpickr('#datetime-picker', { ...options });
