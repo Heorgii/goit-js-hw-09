@@ -38,7 +38,7 @@ const options = {
         }
         startBtn.removeAttribute('disabled');
 
-        const showTimer = () => {
+        const timer = () => {
             const now = new Date();
             localStorage.setItem('selectedData', selectedDates[0]);
             const selectData = new Date(localStorage.getItem('selectedData'));
@@ -65,16 +65,6 @@ const options = {
             }
         };
 
-        const onClick = () => {
-            if (timerId) {
-                clearInterval(timerId);
-            }
-            showTimer();
-            timerId = setInterval(showTimer, 1000);
-        }
-
-        startBtn.addEventListener('click', onClick);
+ 
     },
 };
-
-flatpickr('#datetime-picker', { ...options });
