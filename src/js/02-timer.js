@@ -25,6 +25,7 @@ function convertMs(ms) {
 
     return { days, hours, minutes, seconds };
 }
+
 const addLeadingZero = value => String(value).padStart(2, 0);
 
 const options = {
@@ -50,20 +51,25 @@ const options = {
             const diff = selectData - now;
             const { days, hours, minutes, seconds } = convertMs(diff);
 
-            daysRef.textContent = days;
+            daysRef.textContent = addLeadingZero(days);
             hourRefs.textContent = addLeadingZero(hours);
             minRefs.textContent = addLeadingZero(minutes);
             secRefs.textContent = addLeadingZero(seconds);
 
             if (
-                daysRef.textContent === '0' &&
-                hourRefs.textContent === '0' &&
-                minRefs.textContent === '0' &&
-                secRefs.textContent === '0'
+                daysRef.textContent === '00' &&
+                hourRefs.textContent === '00' &&
+                minRefs.textContent === '00' &&
+                secRefs.textContent === '00'
             ) {
                 clearInterval(timerId);
             }
         };
+
+        const stopTimer = null;
+        if(stopTimer <= -1){
+            timer.clearInterval(timerId);
+        }
 
         const onClick = () => {
             if (timerId) {
