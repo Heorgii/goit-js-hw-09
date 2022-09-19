@@ -35,6 +35,7 @@ const options = {
     minuteIncrement: 1,
     onClose(selectedDates) {
         if (selectedDates[0] < new Date()) {
+            startBtn.setAttribute('disabled', true);
             Notify.failure('Please choose a date in the future');
             return;
         }
@@ -67,7 +68,7 @@ const options = {
         };
 
         const stopTimer = null;
-        if(stopTimer <= -1){
+        if (stopTimer <= -1) {
             timer.clearInterval(timerId);
         }
 
